@@ -26,6 +26,14 @@ class BookListViewModel : ViewModel() {
             is BookListIntent.OnBookClick -> {
 
             }
+
+            is BookListIntent.OnSearchQueryChanged -> {
+                if (state.value.searchQuery == intent.query)
+                    return
+                _state.update {
+                    it.copy(searchQuery = intent.query)
+                }
+            }
         }
     }
 }

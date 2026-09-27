@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -43,27 +44,43 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.compose.uiTooling)
-
             implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             api(libs.compose.runtime)
-            api(libs.compose.foundation)
-            api(libs.compose.material3)
             api(libs.compose.ui)
-            api(libs.compose.components.resources)
-            api(libs.compose.uiToolingPreview)
-            api(libs.androidx.lifecycle.viewmodelCompose)
-            api(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.compose.materialIconsCore)
+            implementation(libs.compose.materialIconsExtended)
 
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
+
+            implementation(project.dependencies.platform(libs.ktor.bom))
+            implementation(libs.bundles.ktor.common)
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(project.dependencies.platform(libs.coil.bom))
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+
+            implementation(libs.kotlinx.collections.immutable)
+        }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
