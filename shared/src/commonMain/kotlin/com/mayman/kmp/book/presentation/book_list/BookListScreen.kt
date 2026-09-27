@@ -1,12 +1,15 @@
 package com.mayman.kmp.book.presentation.book_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,7 +38,7 @@ private fun BookListContent(
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
-            .statusBarsPadding(),
+            .statusBarsPadding().background(color = MaterialTheme.colorScheme.primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SearchTextField(
@@ -47,6 +50,15 @@ private fun BookListContent(
             modifier = Modifier.widthIn(max = 400.dp).fillMaxWidth().padding(16.dp)
         )
 
+        Surface(
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            color = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
+        ) {
+
+
+
+        }
     }
 }
 

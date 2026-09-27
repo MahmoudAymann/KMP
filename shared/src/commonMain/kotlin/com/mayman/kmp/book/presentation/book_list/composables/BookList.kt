@@ -30,6 +30,7 @@ fun BookList(
     scrollState: LazyListState = rememberLazyListState()
 ) {
     LazyColumn(
+        modifier = modifier,
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally

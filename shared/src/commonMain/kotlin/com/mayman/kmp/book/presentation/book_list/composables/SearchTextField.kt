@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -36,18 +37,21 @@ fun SearchTextField(
         modifier = modifier.minimumInteractiveComponentSize(),
         shape = CircleShape,
         value = searchQuery,
+        colors = OutlinedTextFieldDefaults.colors(unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+            focusedBorderColor = MaterialTheme.colorScheme.onPrimary, unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedTextColor = MaterialTheme.colorScheme.onPrimary),
         placeholder = {
-            Text(text = stringResource(Res.string.search_hint))
+            Text(text = stringResource(Res.string.search_hint), color = MaterialTheme.colorScheme.onPrimary)
         },
         leadingIcon = {
-            Icon(imageVector = Icons.Rounded.Search, contentDescription = null)
+            Icon(imageVector = Icons.Rounded.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary)
         },
         trailingIcon = {
             AnimatedVisibility(visible = searchQuery.isNotBlank()) {
                 IconButton(onClick = {
                     onSearchQueryChanged("")
                 }) {
-                    Icon(imageVector = Icons.Rounded.Close, contentDescription = null)
+                    Icon(imageVector = Icons.Rounded.Close, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         },
@@ -60,13 +64,13 @@ fun SearchTextField(
 
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun PreviewSearchTextField() {
     MaterialTheme {
         SearchTextField(
             modifier = Modifier.fillMaxWidth(),
-            searchQuery = "",
+            searchQuery = "sss",
             onSearchQueryChanged = {},
             onSearchImeClick = {},
         )
