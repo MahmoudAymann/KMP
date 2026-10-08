@@ -31,7 +31,9 @@ import com.mayman.kmp.book.presentation.book_list.composables.TabItem
 import kmp.shared.generated.resources.Res
 import kmp.shared.generated.resources.favourites
 import kmp.shared.generated.resources.search_hint
+import kmp.shared.generated.resources.search_results
 import kotlinx.collections.immutable.persistentListOf
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.resources.stringResource
 
 //
@@ -39,8 +41,10 @@ import org.jetbrains.compose.resources.stringResource
 //
 
 @Composable
-fun BookListScreen(onBookClick: (Book) -> Unit) {
-    val viewModel: BookListViewModel = BookListViewModel()
+fun BookListScreen(
+    viewModel: BookListViewModel = viewModel { BookListViewModel() },
+    onBookClick: (Book) -> Unit
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     BookListContent(state, viewModel::onIntent)
 }
@@ -85,7 +89,7 @@ private fun BookListContent(
                 AppTabbedPager(
                     modifier = Modifier.fillMaxWidth().weight(1f),
                     tabs = persistentListOf(
-                        TabItem(title = stringResource(Res.string.search_hint)),
+                        TabItem(title = stringResource(Res.string.search_results)),
                         TabItem(title = stringResource(Res.string.favourites))
                     ),
                     selectedIndex = state.selectedTabIndex,
@@ -93,44 +97,45 @@ private fun BookListContent(
                         onIntent(BookListIntent.OnTabSelected(selectedIndex))
                     }
                 ) { pageIndex ->
-                    Box(modifier = Modifier.fillMaxSize())
-                    when (pageIndex) {
-                        0 -> {
-                            if (state.isLoading)
-                                CircularProgressIndicator()
-                            else {
-                                when {
-                                    state.errorMessage != null -> Text(text = state.errorMessage)
-                                    state.searchResults.isEmpty() -> Text(
-                                        text = "no search results",
-                                        textAlign = TextAlign.Center
-                                    )
-
-                                    else -> {
-                                        BookList(
-                                            books = state.searchResults, onBookClick = {
-                                                onIntent(BookListIntent.OnBookClick(it))
-                                            }, modifier = Modifier.fillMaxSize(),
-                                            scrollState = searchResultListState
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        when (pageIndex) {
+                            0 -> {
+                                if (state.isLoading)
+                                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                                else {
+                                    when {
+                                        state.errorMessage != null -> Text(text = state.errorMessage)
+                                        state.searchResults.isEmpty() -> Text(
+                                            text = "no search results",
+                                            textAlign = TextAlign.Center
                                         )
+
+                                        else -> {
+                                            BookList(
+                                                books = state.searchResults, onBookClick = {
+                                                    onIntent(BookListIntent.OnBookClick(it))
+                                                }, modifier = Modifier.fillMaxSize(),
+                                                scrollState = searchResultListState
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        1 -> {
-                            if (state.favourites.isEmpty()) {
-                                Text(
-                                    text = "no favourite results",
-                                    textAlign = TextAlign.Center
-                                )
-                            }else{
-                                BookList(
-                                    books = state.favourites, onBookClick = {
-                                        onIntent(BookListIntent.OnBookClick(it))
-                                    }, modifier = Modifier.fillMaxSize(),
-                                    scrollState = favouriteListState
-                                )
+                            1 -> {
+                                if (state.favourites.isEmpty()) {
+                                    Text(
+                                        text = "no favourite results",
+                                        textAlign = TextAlign.Center
+                                    )
+                                } else {
+                                    BookList(
+                                        books = state.favourites, onBookClick = {
+                                            onIntent(BookListIntent.OnBookClick(it))
+                                        }, modifier = Modifier.fillMaxSize(),
+                                        scrollState = favouriteListState
+                                    )
+                                }
                             }
                         }
                     }
@@ -143,7 +148,8 @@ private fun BookListContent(
 @Preview
 @Composable
 fun PreviewBookListContent() {
+
     MaterialTheme {
-        BookListContent(BookListState()) {}
+        BookListContent(BookListState(searchResults = books, searchQuery = "kl")) {}
     }
 }

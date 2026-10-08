@@ -2,5 +2,5 @@
 <resources>
     <string name="search_hint">Search...</string>
     <string name="search_results">Search Results</string>
-    <string name="favourites">Search Results</string>
+    <string name="favourites">Favourites</string>
 </resources>

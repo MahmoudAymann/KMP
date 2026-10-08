@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 class BookListViewModel : ViewModel() {
 
 
-    private val _state = MutableStateFlow(BookListState())
+    private val _state = MutableStateFlow(BookListState(searchResults = books))
     val state : StateFlow<BookListState> = _state.asStateFlow()
 
     fun onIntent(intent: BookListIntent) {
@@ -26,8 +26,6 @@ class BookListViewModel : ViewModel() {
             }
 
             is BookListIntent.OnSearchQueryChanged -> {
-                if (state.value.searchQuery == intent.query)
-                    return
                 _state.update {
                     it.copy(searchQuery = intent.query)
                 }

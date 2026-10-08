@@ -7,6 +7,6 @@ import com.mayman.kmp.book.presentation.book_list.BookListScreen
 @Composable
 fun App() {
     MaterialTheme {
-        BookListScreen({})
+        BookListScreen(){}
     }
 }

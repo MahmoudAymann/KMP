@@ -23,3 +23,20 @@ sealed interface BookListIntent {
     data class OnBookClick(val book: Book) : BookListIntent
     data class OnSearchQueryChanged(val query: String) : BookListIntent
 }
+
+val books = persistentListOf(Book(
+    id = "1",
+    name = "Karen McNeil",
+    author = "adipiscing",
+    description = "saperet",
+    imageUrl = "https://picsum.photos/200",
+    rating = 2.3
+),
+    Book(
+        id = "2",
+        name = "Harry potter",
+        author = "Ahmed",
+        description = "description tool onaslkdnaksndjkasdjkasdjk",
+        imageUrl = "https://picsum.photos/200",
+        rating = 3.3
+    ),)
