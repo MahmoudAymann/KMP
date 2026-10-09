@@ -1,4 +1,4 @@
-package com.mayman.kmp.book.presentation.book_list
+package com.mayman.kmp.movie.presentation.movies_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,34 +23,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mayman.kmp.book.domain.model.Book
-import com.mayman.kmp.book.presentation.book_list.composables.AppTabbedPager
-import com.mayman.kmp.book.presentation.book_list.composables.BookList
-import com.mayman.kmp.book.presentation.book_list.composables.SearchTextField
-import com.mayman.kmp.book.presentation.book_list.composables.TabItem
+import com.mayman.kmp.movie.domain.model.Movie
+import com.mayman.kmp.movie.presentation.movies_list.composables.AppTabbedPager
+import com.mayman.kmp.movie.presentation.movies_list.composables.BookList
+import com.mayman.kmp.movie.presentation.movies_list.composables.SearchTextField
+import com.mayman.kmp.movie.presentation.movies_list.composables.TabItem
 import kmp.shared.generated.resources.Res
 import kmp.shared.generated.resources.favourites
-import kmp.shared.generated.resources.search_hint
 import kmp.shared.generated.resources.search_results
 import kotlinx.collections.immutable.persistentListOf
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 //
 // Created by Mahmoud Ayman Mostafa on 25/09/2026.
 //
 
 @Composable
-fun BookListScreen(
-    viewModel: BookListViewModel = viewModel { BookListViewModel() },
-    onBookClick: (Book) -> Unit
-) {
+fun BookListScreen() {
+    val viewModel = koinViewModel<MovieListViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    BookListContent(state, viewModel::onIntent)
+    MovieListContent(state, viewModel::onIntent)
 }
 
 @Composable
-private fun BookListContent(
+private fun MovieListContent(
     state: BookListState,
     onIntent: (BookListIntent) -> Unit
 ) {
@@ -104,7 +101,7 @@ private fun BookListContent(
                                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                                 else {
                                     when {
-                                        state.errorMessage != null -> Text(text = state.errorMessage)
+                                        state.errorMessage != null -> Text(text = state.errorMessage.asString())
                                         state.searchResults.isEmpty() -> Text(
                                             text = "no search results",
                                             textAlign = TextAlign.Center
@@ -112,7 +109,7 @@ private fun BookListContent(
 
                                         else -> {
                                             BookList(
-                                                books = state.searchResults, onBookClick = {
+                                                movies = state.searchResults, onBookClick = {
                                                     onIntent(BookListIntent.OnBookClick(it))
                                                 }, modifier = Modifier.fillMaxSize(),
                                                 scrollState = searchResultListState
@@ -130,7 +127,7 @@ private fun BookListContent(
                                     )
                                 } else {
                                     BookList(
-                                        books = state.favourites, onBookClick = {
+                                        movies = state.favourites, onBookClick = {
                                             onIntent(BookListIntent.OnBookClick(it))
                                         }, modifier = Modifier.fillMaxSize(),
                                         scrollState = favouriteListState
@@ -147,9 +144,24 @@ private fun BookListContent(
 
 @Preview
 @Composable
-fun PreviewBookListContent() {
-
+private fun PreviewMovieListContent() {
+    val movies = persistentListOf(
+        Movie(
+            id = 1L,
+            title = "Karen McNeil",
+            description = "adipiscing",
+            imageUrl = "https://picsum.photos/200",
+            rating = 2.3
+        ),
+        Movie(
+            id = 2L,
+            title = "Harry potter",
+            description = "Ahmed",
+            imageUrl = "https://picsum.photos/200",
+            rating = 3.3
+        )
+    )
     MaterialTheme {
-        BookListContent(BookListState(searchResults = books, searchQuery = "kl")) {}
+        MovieListContent(BookListState(searchResults = movies, searchQuery = "kl")) {}
     }
 }

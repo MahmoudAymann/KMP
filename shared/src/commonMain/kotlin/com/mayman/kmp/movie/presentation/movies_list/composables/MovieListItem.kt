@@ -1,4 +1,4 @@
-package com.mayman.kmp.book.presentation.book_list.composables
+package com.mayman.kmp.movie.presentation.movies_list.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -37,7 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
-import com.mayman.kmp.book.domain.model.Book
+import com.mayman.kmp.movie.domain.model.Movie
 import kmp.shared.generated.resources.Res
 import kmp.shared.generated.resources.broken_image
 import org.jetbrains.compose.resources.painterResource
@@ -49,18 +49,19 @@ import kotlin.math.round
 
 @Composable
 fun BookListItem(
-    book: Book,
+    movie: Movie,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.tertiary,
         modifier = modifier.clickable(onClick = onClick).clip(
             RoundedCornerShape(16.dp)
         )
     ) {
         Row(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(8.dp)
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically
@@ -71,7 +72,7 @@ fun BookListItem(
             )
             {
                 var imageResult by remember { mutableStateOf<Result<Painter>?>(null) }
-                val painter = rememberAsyncImagePainter(model = book.imageUrl, onSuccess = {
+                val painter = rememberAsyncImagePainter(model = movie.imageUrl, onSuccess = {
                     imageResult =
                         if (it.painter.intrinsicSize.width > 1 && it.painter.intrinsicSize.height > 1) {
                             Result.success(it.painter)
@@ -104,14 +105,14 @@ fun BookListItem(
             )
             {
                 Text(
-                    text = book.name,
+                    text = movie.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (book.author.isNotBlank())
+                if (movie.description.isNotBlank())
                     Text(
-                        text = book.author,
+                        text = movie.description,
                         style = MaterialTheme.typography.bodyLarge,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -126,7 +127,7 @@ fun BookListItem(
                         contentDescription = null
                     )
                     Text(
-                        text = "${round(book.rating * 10) / 10.0}",
+                        text = "${round(movie.rating * 10) / 10.0}",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -145,11 +146,10 @@ fun BookListItem(
 private fun BookListItemPreview() {
     MaterialTheme {
         BookListItem(
-            book = Book(
-                id = "nec",
-                name = "Bette Shaw",
-                author = "brute",
-                description = "sed",
+            movie = Movie(
+                id = 3L,
+                title = "Bette Shaw",
+                description = "brute",
                 imageUrl = "https://picsum.photos/200",
                 rating = 4.68576453
             ),

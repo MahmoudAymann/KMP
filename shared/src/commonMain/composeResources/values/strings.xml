@@ -3,4 +3,11 @@
     <string name="search_hint">Search...</string>
     <string name="search_results">Search Results</string>
     <string name="favourites">Favourites</string>
+    <string name="error_disk_full">Oops, your disk might be full.</string>
+    <string name="error_unknown">Oops, Something went wrong.</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_no_internet">No internet connection, please try again.</string>
+    <string name="error_too_many_request">Too Many Requests, please try again later</string>
+    <string name="error_serialization">Serialization Error, Couldn't parse data</string>
+    <string name="error_server">Server Error, please try again</string>
 </resources>

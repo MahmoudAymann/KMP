@@ -44,8 +44,8 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.ktor.client.okhttp)
+            api(libs.koin.android)
+            api(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             api(libs.compose.runtime)
@@ -59,15 +59,15 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.compose.materialIconsCore)
             implementation(libs.compose.materialIconsExtended)
-
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.core)
+            //Koin
+            api(project.dependencies.platform(libs.koin.bom))
+            api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
-
-            implementation(project.dependencies.platform(libs.ktor.bom))
-            implementation(libs.bundles.ktor.common)
+            //Ktor
+            api(project.dependencies.platform(libs.ktor.bom))
+            api(libs.bundles.ktor.common)
             implementation(libs.kotlinx.serialization.json)
 
             implementation(project.dependencies.platform(libs.coil.bom))
@@ -77,10 +77,10 @@ kotlin {
             implementation(libs.kotlinx.collections.immutable)
         }
         jvmMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
+            api(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+            api(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

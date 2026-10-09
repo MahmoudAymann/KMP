@@ -1,4 +1,4 @@
-package com.mayman.kmp.book.presentation.book_list.composables
+package com.mayman.kmp.movie.presentation.movies_list.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
